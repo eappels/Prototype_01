@@ -92,7 +92,7 @@ public class LidClient : LidPeer
         lidobject.id = id;
         if (lidobject.id == this.clientid)
         {
-            UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Despawn";
+            UIManager.Instance.btn_Spawn.GetComponentInChildren<Text>().text = "Despawn";
             Camera.main.GetComponent<WoWCamera>().target = lidobject.transform;
         }
     }
@@ -107,7 +107,7 @@ public class LidClient : LidPeer
             }
             if (this.clientid == clientid)
             {
-                UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Spawn";
+                UIManager.Instance.btn_Spawn.GetComponentInChildren<Text>().text = "Spawn";
                 Camera.main.GetComponent<WoWCamera>().target = null;
             }
         }

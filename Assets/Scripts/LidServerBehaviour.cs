@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LidServerBehaviour : MonoBehaviour
+public class LidServerBehaviour : Singleton<LidServerBehaviour>
 {
 
     public LidServer lidserver;
@@ -10,9 +10,9 @@ public class LidServerBehaviour : MonoBehaviour
     {
         lidserver = new LidServer();
         lidserver.OnNetworkDebugMessage += OnDebugMessages;
-        UIManager.instance.btn_Back.GetComponent<Button>().onClick.AddListener(btn_Back_Click);
-        UIManager.instance.btn_StartStopServer.GetComponent<Button>().onClick.AddListener(btn_StartStopServer_Click);
-        UIManager.instance.btn_Back.SetActive(true);
+        UIManager.Instance.btn_Back.GetComponent<Button>().onClick.AddListener(btn_Back_Click);
+        UIManager.Instance.btn_StartStopServer.GetComponent<Button>().onClick.AddListener(btn_StartStopServer_Click);
+        UIManager.Instance.btn_Back.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -22,9 +22,9 @@ public class LidServerBehaviour : MonoBehaviour
 
     private void OnDisable()
     {
-        UIManager.instance.btn_Back.SetActive(false);
-        UIManager.instance.btn_Back.GetComponent<Button>().onClick.RemoveListener(btn_Back_Click);
-        UIManager.instance.btn_StartStopServer.GetComponent<Button>().onClick.RemoveListener(btn_StartStopServer_Click);
+        UIManager.Instance.btn_Back.SetActive(false);
+        UIManager.Instance.btn_Back.GetComponent<Button>().onClick.RemoveListener(btn_Back_Click);
+        UIManager.Instance.btn_StartStopServer.GetComponent<Button>().onClick.RemoveListener(btn_StartStopServer_Click);
         lidserver.OnNetworkDebugMessage -= OnDebugMessages;
         lidserver = null;
     }
@@ -39,20 +39,20 @@ public class LidServerBehaviour : MonoBehaviour
         if (lidserver.netserver.Status == Lidgren.Network.NetPeerStatus.NotRunning)
         {
             lidserver.StartServer();
-            UIManager.instance.btn_Back.SetActive(false);
-            UIManager.instance.btn_StartStopServer.GetComponentInChildren<Text>().text = "Stop server";
+            UIManager.Instance.btn_Back.SetActive(false);
+            UIManager.Instance.btn_StartStopServer.GetComponentInChildren<Text>().text = "Stop server";
         }
         else
         {
             lidserver.StopServer();
-            UIManager.instance.btn_Back.SetActive(true);
-            UIManager.instance.btn_StartStopServer.GetComponentInChildren<Text>().text = "Start server";
+            UIManager.Instance.btn_Back.SetActive(true);
+            UIManager.Instance.btn_StartStopServer.GetComponentInChildren<Text>().text = "Start server";
         }
     }
 
     private void btn_Back_Click()
     {
-        UIManager.instance.pnl_Server.SetActive(false);
-        UIManager.instance.pnl_Menu.SetActive(true);
+        UIManager.Instance.pnl_Server.SetActive(false);
+        UIManager.Instance.pnl_Menu.SetActive(true);
     }
 }
