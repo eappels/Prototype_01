@@ -90,7 +90,11 @@ public class LidClient : LidPeer
         var gameobject = (GameObject)GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/" + prefabname), position, rotation);
         var lidobject = gameobject.AddComponent<LidObject>();
         lidobject.id = id;
-        if (lidobject.id == this.clientid) UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Despawn";
+        if (lidobject.id == this.clientid)
+        {
+            UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Despawn";
+            Camera.main.GetComponent<WoWCamera>().target = lidobject.transform;
+        }
     }
 
     public void RPC_Despawn(NetIncomingMessage nim, int clientid)
@@ -104,6 +108,7 @@ public class LidClient : LidPeer
             if (this.clientid == clientid)
             {
                 UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Spawn";
+                Camera.main.GetComponent<WoWCamera>().target = null;
             }
         }
     }
