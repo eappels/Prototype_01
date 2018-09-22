@@ -28,6 +28,7 @@ public class LidServer : LidPeer
 
     public void StopServer()
     {
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Player")) GameObject.Destroy(go);
         netserver.Shutdown(string.Empty);
     }
 

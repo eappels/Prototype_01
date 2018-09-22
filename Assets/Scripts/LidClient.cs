@@ -61,6 +61,7 @@ public class LidClient : LidPeer
                 if (Connected != null) Connected();
                 break;
             case NetConnectionStatus.Disconnected:
+                foreach (GameObject go in GameObject.FindGameObjectsWithTag("Player")) GameObject.Destroy(go);
                 if (Disconnected != null) Disconnected();
                 break;
         }
