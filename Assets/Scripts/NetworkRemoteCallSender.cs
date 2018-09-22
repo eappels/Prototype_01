@@ -13,6 +13,12 @@ public static class NetworkRemoteCallSender
         CallOnClients(new[] { client }, methodname, args);
     }
 
+    public static void CallOnAllClients(string methodname, params object[] args)
+    {
+        var lidserver = (LidServer)LidPeer.instance;
+        CallOnClients(new List<NetworkClientInfo>(lidserver.connected_clients), methodname, args);
+    }
+
     public static void CallOnClients(IList<NetworkClientInfo> clients, string methodname, params object[] args)
     {
         if (!LidPeer.isserver) throw new Exception();

@@ -1,5 +1,7 @@
 ﻿using Lidgren.Network;
 using System;
+using System.IO;
+using UnityEngine;
 
 public class LidClient : LidPeer
 {
@@ -77,6 +79,11 @@ public class LidClient : LidPeer
     public void RPC_Hello(NetIncomingMessage nim, byte id)
     {
         this.id = id;
-        NetworkRemoteCallSender.CallOnServer("RPC_Olleh");
+        NetworkRemoteCallSender.CallOnServer("RPC_RequestObjects");
+    }
+
+    public void RPC_Spawn(NetIncomingMessage nim, byte id, string prefabname, Vector3 position, Quaternion rotation)
+    {
+        var gameobject = (GameObject)GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/" + prefabname), position, rotation);
     }
 }

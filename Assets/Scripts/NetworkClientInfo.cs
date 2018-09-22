@@ -5,6 +5,7 @@ public class NetworkClientInfo
 
     public readonly byte id;
     public readonly NetConnection netconnection;
+    public bool spawned;
 
     public NetworkClientInfo(byte id, NetConnection netconnection)
     {

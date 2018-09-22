@@ -82,8 +82,15 @@ public class LidServer : LidPeer
         }
     }
 
-    public void RPC_Olleh(NetIncomingMessage nim)
+    public void RPC_RequestObjects(NetIncomingMessage nim)
     {
-        Debug.Log("RPC_Olleh");
+    }
+
+    public void RPC_RequestSpawn(NetIncomingMessage nim, string prefabname, Vector3 position, Quaternion rotation)
+    {
+        var client = GetClientInfo(nim);
+        var gameobject = (GameObject)GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/" + prefabname), position, rotation);
+        client.spawned = true;
+        NetworkRemoteCallSender.CallOnAllClients("RPC_Spawn", id, prefabname, position, rotation);
     }
 }

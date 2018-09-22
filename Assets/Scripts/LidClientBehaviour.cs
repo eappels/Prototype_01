@@ -17,6 +17,7 @@ public class LidClientBehaviour : MonoBehaviour
         UIManager.instance.btn_Back.GetComponent<Button>().onClick.AddListener(btn_Back_Click);
         UIManager.instance.btn_Connect.GetComponent<Button>().onClick.AddListener(btn_Connect_Click);
         UIManager.instance.btn_Disconnect.GetComponent<Button>().onClick.AddListener(btn_Disconnect_Click);
+        UIManager.instance.btn_Spawn.GetComponent<Button>().onClick.AddListener(btn_Spawn_Click);
         UIManager.instance.btn_Back.SetActive(true);
         UIManager.instance.btn_Spawn.SetActive(false);
         UIManager.instance.btn_Disconnect.SetActive(false);
@@ -34,6 +35,7 @@ public class LidClientBehaviour : MonoBehaviour
     private void OnDisable()
     {
         UIManager.instance.btn_Back.SetActive(false);
+        UIManager.instance.btn_Spawn.GetComponent<Button>().onClick.RemoveListener(btn_Spawn_Click);
         UIManager.instance.btn_Back.GetComponent<Button>().onClick.RemoveListener(btn_Back_Click);
         UIManager.instance.btn_Connect.GetComponent<Button>().onClick.RemoveListener(btn_Connect_Click);
         UIManager.instance.btn_Disconnect.GetComponent<Button>().onClick.RemoveListener(btn_Disconnect_Click);
@@ -94,5 +96,10 @@ public class LidClientBehaviour : MonoBehaviour
         UIManager.instance.btn_Disconnect.SetActive(false);
         UIManager.instance.btn_Spawn.SetActive(false);
         UIManager.instance.btn_Back.SetActive(true);
+    }
+
+    private void btn_Spawn_Click()
+    {
+        NetworkRemoteCallSender.CallOnServer("RPC_RequestSpawn", "PlayerPrefab", Vector3.zero, Quaternion.identity);
     }
 }
