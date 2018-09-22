@@ -8,7 +8,6 @@ public abstract class LidPeer
     public static bool isserver, isclient;
     public const string APPID = "MyGame";
     public const int APPPORT = 25000;
-    public byte id;
 
     public const byte REMOTE_CALL_FLAG = 0;
 

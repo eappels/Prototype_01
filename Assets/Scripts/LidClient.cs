@@ -1,7 +1,8 @@
 ﻿using Lidgren.Network;
 using System;
-using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LidClient : LidPeer
 {
@@ -9,6 +10,7 @@ public class LidClient : LidPeer
     public readonly NetClient netclient;
     public event Action<string> OnNetworkDebugMessage = null;
     public event Action Connected = null, Disconnected = null;
+    private int clientid;
 
     public LidClient()
         : base()
@@ -77,14 +79,32 @@ public class LidClient : LidPeer
         }
     }
 
-    public void RPC_Hello(NetIncomingMessage nim, byte id)
+    public void RPC_Hello(NetIncomingMessage nim, int clientid)
     {
-        this.id = id;
+        this.clientid = clientid;
         NetworkRemoteCallSender.CallOnServer("RPC_RequestObjects");
     }
 
-    public void RPC_Spawn(NetIncomingMessage nim, byte id, string prefabname, Vector3 position, Quaternion rotation)
+    public void RPC_Spawn(NetIncomingMessage nim, int id, string prefabname, Vector3 position, Quaternion rotation)
     {
         var gameobject = (GameObject)GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/" + prefabname), position, rotation);
+        var lidobject = gameobject.AddComponent<LidObject>();
+        lidobject.id = id;
+        if (lidobject.id == this.clientid) UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Despawn";
+    }
+
+    public void RPC_Despawn(NetIncomingMessage nim, int clientid)
+    {
+        foreach (LidObject lo in MonoBehaviour.FindObjectsOfType(typeof(LidObject)).Cast<LidObject>())
+        {
+            if (lo.id == clientid)
+            {
+                GameObject.Destroy(lo.gameObject);
+            }
+            if (this.clientid == clientid)
+            {
+                UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text = "Spawn";
+            }
+        }
     }
 }

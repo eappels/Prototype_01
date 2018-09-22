@@ -100,6 +100,7 @@ public class LidClientBehaviour : MonoBehaviour
 
     private void btn_Spawn_Click()
     {
-        NetworkRemoteCallSender.CallOnServer("RPC_RequestSpawn", "PlayerPrefab", Vector3.zero, Quaternion.identity);
+        if (UIManager.instance.btn_Spawn.GetComponentInChildren<Text>().text == "Spawn") NetworkRemoteCallSender.CallOnServer("RPC_RequestSpawn", "PlayerPrefab", new Vector3(Random.Range(-5,5), 3, 0), Quaternion.identity);
+        else NetworkRemoteCallSender.CallOnServer("RPC_RequestDespawn");
     }
 }
